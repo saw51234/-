@@ -43,3 +43,8 @@ INSERT INTO gacha_results (user_id, item_name, rank_grade) VALUES
 
 SELECT * FROM users;
 SELECT * FROM stats;
+
+
+CREATE USER IF NOT EXISTS 'game_admin'@'localhost' IDENTIFIED BY '1234';
+GRANT ALL PRIVILEGES ON hall_of_luck.* TO 'game_admin'@'localhost';
+FLUSH PRIVILEGES;
