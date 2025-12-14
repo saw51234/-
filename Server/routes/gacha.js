@@ -29,21 +29,23 @@ router.post('/pull', async (req, res) => {
     try {
         const result = rollGacha();
 
-        // DB 연결되면 여기 실행됨
+        // 1. 뽑기 결과 기록 (gacha_results)
         await pool.query(
             "INSERT INTO gacha_results (user_id, item_name, rank_grade) VALUES (?, ?, ?)",
             [userId, result.name, result.rank]
         );
 
-        // total_pulls +1
+        // 2. 총 뽑기 횟수 증가 (stats)
         await pool.query(
             "UPDATE stats SET total_pulls = total_pulls + 1 WHERE user_id = ?",
             [userId]
         );
 
-        // 최고 등급 갱신(조건부)
         await pool.query(
-            "UPDATE stats SET highest_rank = ? WHERE user_id = ? AND highest_rank > ?",
+            `UPDATE stats 
+             SET highest_rank = ? 
+             WHERE user_id = ? 
+             AND FIELD(highest_rank, 'S', 'A', 'B') > FIELD(?, 'S', 'A', 'B')`,
             [result.rank, userId, result.rank]
         );
 
@@ -59,7 +61,7 @@ router.post('/pull', async (req, res) => {
     }
 });
 
-// 2) 최근 10개 기록
+// 2) 최근 10개 기록 조회
 router.get('/history/:userId', async (req, res) => {
     const { userId } = req.params;
 
@@ -83,7 +85,7 @@ router.get('/ranking', async (req, res) => {
             SELECT u.nickname, s.total_pulls, s.highest_rank
             FROM stats s 
             JOIN users u ON s.user_id = u.id 
-            ORDER BY s.highest_rank ASC, s.total_pulls DESC 
+            ORDER BY FIELD(s.highest_rank, 'S', 'A', 'B') ASC, s.total_pulls DESC 
             LIMIT 20
         `);
 

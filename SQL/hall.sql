@@ -16,10 +16,12 @@
 
 
 -- hall_of_luck 데이터베이스 구조 내보내기
+DROP DATABASE IF EXISTS `hall_of_luck`;
 CREATE DATABASE IF NOT EXISTS `hall_of_luck` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `hall_of_luck`;
 
 -- 테이블 hall_of_luck.gacha_results 구조 내보내기
+DROP TABLE IF EXISTS `gacha_results`;
 CREATE TABLE IF NOT EXISTS `gacha_results` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '기록 고유 ID',
   `user_id` int NOT NULL COMMENT '유저 ID',
@@ -29,17 +31,12 @@ CREATE TABLE IF NOT EXISTS `gacha_results` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `gacha_results_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 테이블 데이터 hall_of_luck.gacha_results:~3 rows (대략적) 내보내기
-DELETE FROM `gacha_results`;
-INSERT INTO `gacha_results` (`id`, `user_id`, `item_name`, `rank_grade`, `created_at`) VALUES
-	(1, 1, '전설의 검', 'S', '2025-12-02 04:06:54'),
-	(2, 1, '튼튼한  방패', 'B', '2025-12-02 04:06:54'),
-	(3, 2, '나무 몽둥이', 'C', '2025-12-02 04:06:54'),
-	(4, 3, '황금 갑옷', 'A', '2025-12-02 04:06:54');
+-- 테이블 데이터 hall_of_luck.gacha_results:~0 rows (대략적) 내보내기
 
 -- 테이블 hall_of_luck.stats 구조 내보내기
+DROP TABLE IF EXISTS `stats`;
 CREATE TABLE IF NOT EXISTS `stats` (
   `user_id` int NOT NULL COMMENT '유저 ID',
   `total_pulls` int DEFAULT '0' COMMENT '총 뽑기 횟수',
@@ -49,28 +46,19 @@ CREATE TABLE IF NOT EXISTS `stats` (
   CONSTRAINT `stats_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 테이블 데이터 hall_of_luck.stats:~3 rows (대략적) 내보내기
-DELETE FROM `stats`;
-INSERT INTO `stats` (`user_id`, `total_pulls`, `highest_rank`, `last_updated`) VALUES
-	(1, 100, 'S', '2025-12-02 04:06:54'),
-	(2, 5, 'B', '2025-12-02 04:06:54'),
-	(3, 50, 'A', '2025-12-02 04:06:54');
+-- 테이블 데이터 hall_of_luck.stats:~0 rows (대략적) 내보내기
 
 -- 테이블 hall_of_luck.users 구조 내보내기
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '고유 ID',
   `nickname` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '유저 닉네임',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '가입 일자',
   PRIMARY KEY (`id`),
   UNIQUE KEY `nickname` (`nickname`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 테이블 데이터 hall_of_luck.users:~3 rows (대략적) 내보내기
-DELETE FROM `users`;
-INSERT INTO `users` (`id`, `nickname`, `created_at`) VALUES
-	(1, '고인물유저', '2025-12-02 04:06:54'),
-	(2, '뉴비', '2025-12-02 04:06:54'),
-	(3, '운빨러', '2025-12-02 04:06:54');
+-- 테이블 데이터 hall_of_luck.users:~0 rows (대략적) 내보내기
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
