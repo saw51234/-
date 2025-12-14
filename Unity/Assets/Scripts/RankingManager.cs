@@ -6,9 +6,9 @@ using TMPro;
 public class RankingManager : MonoBehaviour
 {
     [Header("UI References")]
-    public GameObject panelRanking;      // Panel_Ranking
-    public Transform contentParent;      // ScrollView_Ranking -> Viewport -> Content
-    public GameObject rankingItemPrefab; // RankingItem ÇÁ¸®ÆÕ
+    public GameObject panelRanking;
+    public Transform contentParent;
+    public GameObject rankingItemPrefab;
 
     private string baseUrl = "http://localhost:4000";
 
